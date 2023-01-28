@@ -9,6 +9,8 @@ import MeVideoElem from './components/MeVideoElem';
 import PeerVideoAudioElem from './components/PeerVideoAudioElem';
 import { useHuddleStore } from "@huddle01/huddle01-client/store";
 import { create } from 'ipfs-http-client'
+import Home from './components/Home';
+import Footer from './components/Footer';
 
 
 
@@ -115,7 +117,9 @@ function App(){
     <HuddleClientProvider client = {huddleClient}>
     <div className="App">
       <Navbar connectWallet = {connectWallet} address = {address} walletConnected ={walletConnected} disconnect = {disconnect}/>
-      <div className="input-file">
+      <Home/>
+      <Footer/>
+      {/* <div className="input-file">
       <h1>IPFS Example</h1>
       <input
         type="file"
@@ -126,7 +130,7 @@ function App(){
           <img src={fileUrl} width="600px" />
         )
       }
-    </div>
+    </div> */}
     </div>
     </HuddleClientProvider>
   );

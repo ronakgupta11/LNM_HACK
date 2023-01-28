@@ -4,6 +4,47 @@
 
 .navbar{
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 0 1rem;
   align-items: center;
+  background-color: black;
+  color: white;
+  /* position: absolute; */
+  /* width: 98vw; */
+  /* top: 0; */
+  height: 10vh;
+
+}
+.nav-btn{
+  border: none;
+  color: white;
+  background-color: #3b82f6;
+  height: 30px;
+  font-size: 1rem;
+  border-radius: 3px;
+
+}
+.footer{
+  height: 50px;
+  background-color: black;
+  /* position: relative; */
+  height: 10vh;
+  /* position: absolute; */
+  /* bottom: 0; */
+
+}
+
+.home{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 80vh;
+
+
+}
+.home-img{
+  height: 10rem;
+}
+.home-para{
+  text-align: justify;
 }
