@@ -7,29 +7,25 @@ import { providers, Contract } from "ethers";
 import { getHuddleClient, HuddleClientProvider } from '@huddle01/huddle01-client';
 import { useHuddleStore } from "@huddle01/huddle01-client/store";
 
-import { create } from 'ipfs-http-client'
 import Home from './components/Home';
 import Footer from './components/Footer';
 import Meeting from './components/Meeting';
+import UploadFile from './components/UploadFile';
+import FileCard from './components/FileCard';
 
 
 
 function App(){
-  const projectId = "2KwaoOl1zY6POCINIGnPji27rdB";
-  const projectSecret = "783ec42e795c6f8b6dccdacc00a5b0bb";
-  const authorization = "Basic " + Buffer.from(projectId + ":" + projectSecret).toString('base64');
+
   
 
   
-  const client = create({url:'https://ipfs.infura.io:5001/api/v0',
-  headers:{authorization},
-})
+
   const huddleClient = getHuddleClient('702b03a76c58010686023dac1caeb63696b04b1c069ef14405b4ede34ed1586b');
   
   const [walletConnected, setWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [address,setAddress]  = useState("")
-  const [fileUrl, setFileUrl] = useState(``)
   
 
   
@@ -77,18 +73,7 @@ function App(){
 
  }
 
- async function onChange(e) {
-  const file = e.target.files[0]
-  try {
-    const added = await client.add(file)
-    console.log(added)
-    console.log(added.path)
-    const url = `https://ipfs.io/ipfs/${added.path}`
-    setFileUrl(url)
-  } catch (error) {
-    console.log('Error uploading file: ', error)
-  }  
-}
+
 
   useEffect(() => {
 
@@ -117,20 +102,11 @@ function App(){
     <div className="App">
       <Navbar connectWallet = {connectWallet} address = {address} walletConnected ={walletConnected} disconnect = {disconnect}/>
       {/* <Home/> */}
-      <Meeting huddleClient = {huddleClient} address = {address}/>
+      {/* <Meeting huddleClient = {huddleClient} address = {address}/> */}
+      <UploadFile loading = {loading} setLoading = {setLoading}/>
+      <FileCard/>
       <Footer/>
-      {/* <div className="input-file">
-      <h1>IPFS Example</h1>
-      <input
-        type="file"
-        onChange={onChange}
-      />
-      {
-        fileUrl && (
-          <img src={fileUrl} width="600px" />
-        )
-      }
-    </div> */}
+
 
     </div>
     </HuddleClientProvider>
