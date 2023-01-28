@@ -4,9 +4,12 @@ import Navbar from './components/Navbar';
 import {useRef,useState,useEffect} from "react"
 import Web3Modal from "web3modal";
 import { providers, Contract } from "ethers";
+import { getHuddleClient, HuddleClientProvider } from '@huddle01/huddle01-client';
 
 
-function App() {
+function App(){
+   
+  const huddleClient = getHuddleClient('702b03a76c58010686023dac1caeb63696b04b1c069ef14405b4ede34ed1586b');
   const [walletConnected, setWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [address,setAddress]  = useState("")
@@ -78,9 +81,11 @@ function App() {
 
 
   return (
+    <HuddleClientProvider client = {huddleClient}>
     <div className="App">
       <Navbar connectWallet = {connectWallet} address = {address} walletConnected ={walletConnected} disconnect = {disconnect}/>
     </div>
+    </HuddleClientProvider>
   );
 }
 
