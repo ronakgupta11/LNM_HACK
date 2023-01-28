@@ -8,25 +8,39 @@ import { getHuddleClient, HuddleClientProvider } from '@huddle01/huddle01-client
 import MeVideoElem from './components/MeVideoElem';
 import PeerVideoAudioElem from './components/PeerVideoAudioElem';
 import { useHuddleStore } from "@huddle01/huddle01-client/store";
+import { create } from 'ipfs-http-client'
+
 
 
 function App(){
-   
+  const projectId = "2KwaoOl1zY6POCINIGnPji27rdB";
+  const projectSecret = "783ec42e795c6f8b6dccdacc00a5b0bb";
+  const authorization = "Basic " + Buffer.from(projectId + ":" + projectSecret).toString('base64');
+  
+
+  
+  const client = create({url:'https://ipfs.infura.io:5001/api/v0',
+  headers:{authorization},
+})
   const huddleClient = getHuddleClient('702b03a76c58010686023dac1caeb63696b04b1c069ef14405b4ede34ed1586b');
+  
   const [walletConnected, setWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [address,setAddress]  = useState("")
+  const [fileUrl, setFileUrl] = useState(``)
+
+  
   const web3ModalRef = useRef();
   const peersKeys = useHuddleStore((state) => Object.keys(state.peers));
   const isJoined = useHuddleStore((state) => state.roomState.joined);
 
+  
+  
   const getProviderOrSigner = async (needSigner = false) => {
-    // Connect to Metamask
-    // Since we store `web3Modal` as a reference, we need to access the `current` value to get access to the underlying object
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
 
-    // If user is not connected to the Goerli network, let them know and throw an error
+    // If user is not connected to the mumbai network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
     if (chainId !== 80001) {
       window.alert("Change the network to mumbai");
@@ -42,8 +56,7 @@ function App(){
 
   const connectWallet = async () => {
     try {
-      // Get the provider from web3Modal, which in our case is MetaMask
-      // When used for the first time, it prompts the user to connect their wallet
+
       const signer = await getProviderOrSigner(true);
       setWalletConnected(true);
       const add = await signer.getAddress()
@@ -62,11 +75,24 @@ function App(){
   console.log("disconnesct clicked")
 
  }
+
+ async function onChange(e) {
+  const file = e.target.files[0]
+  try {
+    const added = await client.add(file)
+    console.log(added)
+    console.log(added.path)
+    const url = `https://ipfs.io/ipfs/${added.path}`
+    setFileUrl(url)
+  } catch (error) {
+    console.log('Error uploading file: ', error)
+  }  
+}
+
   useEffect(() => {
-    // if wallet is not connected, create a new instance of Web3Modal and connect the MetaMask wallet
+
     if (!walletConnected) {
-      // Assign the Web3Modal class to the reference object by setting it's `current` value
-      // The `current` value is persisted throughout as long as this page is open
+
       web3ModalRef.current = new Web3Modal({
         network: "mumbai",
         cacheProvider: true,
@@ -80,7 +106,7 @@ function App(){
         },
         disableInjectedProvider: false,
       });
-      // connectWallet();
+
     }
   },[walletConnected]);
 
@@ -89,6 +115,18 @@ function App(){
     <HuddleClientProvider client = {huddleClient}>
     <div className="App">
       <Navbar connectWallet = {connectWallet} address = {address} walletConnected ={walletConnected} disconnect = {disconnect}/>
+      <div className="input-file">
+      <h1>IPFS Example</h1>
+      <input
+        type="file"
+        onChange={onChange}
+      />
+      {
+        fileUrl && (
+          <img src={fileUrl} width="600px" />
+        )
+      }
+    </div>
     </div>
     </HuddleClientProvider>
   );
