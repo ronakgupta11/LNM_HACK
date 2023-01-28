@@ -5,12 +5,12 @@ import {useRef,useState,useEffect} from "react"
 import Web3Modal from "web3modal";
 import { providers, Contract } from "ethers";
 import { getHuddleClient, HuddleClientProvider } from '@huddle01/huddle01-client';
-import MeVideoElem from './components/MeVideoElem';
-import PeerVideoAudioElem from './components/PeerVideoAudioElem';
 import { useHuddleStore } from "@huddle01/huddle01-client/store";
+
 import { create } from 'ipfs-http-client'
 import Home from './components/Home';
 import Footer from './components/Footer';
+import Meeting from './components/Meeting';
 
 
 
@@ -30,11 +30,10 @@ function App(){
   const [loading, setLoading] = useState(false);
   const [address,setAddress]  = useState("")
   const [fileUrl, setFileUrl] = useState(``)
+  
 
   
   const web3ModalRef = useRef();
-  const peersKeys = useHuddleStore((state) => Object.keys(state.peers));
-  const isJoined = useHuddleStore((state) => state.roomState.joined);
 
   
   
@@ -117,7 +116,8 @@ function App(){
     <HuddleClientProvider client = {huddleClient}>
     <div className="App">
       <Navbar connectWallet = {connectWallet} address = {address} walletConnected ={walletConnected} disconnect = {disconnect}/>
-      <Home/>
+      {/* <Home/> */}
+      <Meeting huddleClient = {huddleClient} address = {address}/>
       <Footer/>
       {/* <div className="input-file">
       <h1>IPFS Example</h1>
@@ -131,6 +131,7 @@ function App(){
         )
       }
     </div> */}
+
     </div>
     </HuddleClientProvider>
   );
