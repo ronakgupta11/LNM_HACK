@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import Meeting from './components/Meeting';
 import UploadFile from './components/UploadFile';
 import FileCard from './components/FileCard';
+import EditorPage from './components/EditorPage';
 
 
 
@@ -105,6 +106,7 @@ function App(){
       {/* <Meeting huddleClient = {huddleClient} address = {address}/> */}
       <UploadFile loading = {loading} setLoading = {setLoading}/>
       <FileCard/>
+      <EditorPage/>
       <Footer/>
 
 
