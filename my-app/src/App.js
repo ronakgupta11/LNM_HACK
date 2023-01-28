@@ -63,12 +63,12 @@ function App() {
         network: "mumbai",
         cacheProvider: true,
         providerOptions: {
-          // walletconnect: {
-          //   package: require('@walletconnect/web3-provider'),
-          //   options: {
-          //     infuraId: '070c84d742ea49468438d43ca28f82f2'
-          //   }
-          // }
+          walletconnect: {
+            package: require('@walletconnect/web3-provider'),
+            options: {
+              infuraId: '070c84d742ea49468438d43ca28f82f2'
+            }
+          }
         },
         disableInjectedProvider: false,
       });
