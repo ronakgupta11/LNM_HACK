@@ -3,9 +3,10 @@ import './App.css';
 import Navbar from './components/Navbar';
 import {useRef,useState,useEffect} from "react"
 import Web3Modal from "web3modal";
-import { providers, Contract } from "ethers";
+import { providers, Contract,ethers } from "ethers";
 import { getHuddleClient, HuddleClientProvider } from '@huddle01/huddle01-client';
 import { useHuddleStore } from "@huddle01/huddle01-client/store";
+import { contractAddress,abi } from './constants';
 
 import Home from './components/Home';
 import Footer from './components/Footer';
@@ -13,6 +14,7 @@ import Meeting from './components/Meeting';
 import UploadFile from './components/UploadFile';
 import FileCard from './components/FileCard';
 import EditorPage from './components/EditorPage';
+import AllFiles from './components/AllFiles';
 
 
 
@@ -27,6 +29,7 @@ function App(){
   const [walletConnected, setWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [address,setAddress]  = useState("")
+  // const contract  = Contract()
   
 
   
@@ -102,11 +105,12 @@ function App(){
     <HuddleClientProvider client = {huddleClient}>
     <div className="App">
       <Navbar connectWallet = {connectWallet} address = {address} walletConnected ={walletConnected} disconnect = {disconnect}/>
-      {/* <Home/> */}
-      {/* <Meeting huddleClient = {huddleClient} address = {address}/> */}
-      <UploadFile loading = {loading} setLoading = {setLoading}/>
-      <FileCard/>
-      <EditorPage/>
+      <Home/>
+      <Meeting huddleClient = {huddleClient} address = {address}/>
+      <UploadFile loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address}/>
+      {/* <FileCard/> */}
+      {walletConnected && <AllFiles address = {address} getSigner = {getProviderOrSigner}/>}
+      <EditorPage loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address} />
       <Footer/>
 
 

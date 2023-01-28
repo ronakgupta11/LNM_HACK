@@ -1,5 +1,8 @@
 import { create } from 'ipfs-http-client'
 import { useState } from 'react';
+import { providers, Contract,ethers } from "ethers";
+import { contractAddress,abi } from '../constants';
+
 export default function UploadFile(props){
 
     const projectId = "2KwaoOl1zY6POCINIGnPji27rdB";
@@ -17,16 +20,42 @@ export default function UploadFile(props){
     function onChange(e) {
        setFile(e.target.files[0])
       }
+      function isPresent(array,fileName){
+        return array.includes(fileName);
+
+      }
       async function upload(){
         try {
             props.setLoading(true)
-            const added = await client.add(file)
-
-            //add contract upload integeration here
+            const added = await client.add(file);
+            const signer = await props.getSigner(true);
+            const contract = new Contract(contractAddress,abi,signer);
+            const add = await signer.getAddress()
+            
             setHash(added.path)
             const url = `https://ipfs.io/ipfs/${added.path}`
             setIpfsLink(url)
-            props.setLoading(false)
+            const userFiles = await contract.getFilesOfAddress(add);
+              if (isPresent(userFiles,name)){
+                //then check for last hash if last hash is same as current dont commit otherwise commit
+                const versions = await contract.getVersionOfFile(add,name);
+                console.log(versions)
+                const latestVersion = versions[versions.length - 1];
+                console.log(latestVersion)
+
+                if(url == await latestVersion.ipfsUrl){
+                  console.log("file is same")
+                  props.setLoading(false);
+                  return;
+
+                }
+                const tx = await contract.createFile(name,url);
+              await tx.wait()
+              props.setLoading(false)
+              }
+              const tx = await contract.createFile(name,url);
+              await tx.wait()
+              props.setLoading(false)
           } catch (error) {
             console.log('Error uploading file: ', error)
           }  
@@ -47,13 +76,13 @@ export default function UploadFile(props){
         onChange={onChange}
       />
       <button className='nav-btn ' onClick={upload}>{props.loading?"loading...":"Upload File"}</button>
-      {
+      {/* {
         hash && (
         //   <img src={fileUrl} width="600px" />
         <p>{`file successfully uploaded with hash :${hash}`}</p>
         
         )
-      }
+      } */}
       
       
     {/* </div> */}
