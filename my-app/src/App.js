@@ -5,6 +5,9 @@ import {useRef,useState,useEffect} from "react"
 import Web3Modal from "web3modal";
 import { providers, Contract } from "ethers";
 import { getHuddleClient, HuddleClientProvider } from '@huddle01/huddle01-client';
+import MeVideoElem from './components/MeVideoElem';
+import PeerVideoAudioElem from './components/PeerVideoAudioElem';
+import { useHuddleStore } from "@huddle01/huddle01-client/store";
 
 
 function App(){
@@ -14,6 +17,8 @@ function App(){
   const [loading, setLoading] = useState(false);
   const [address,setAddress]  = useState("")
   const web3ModalRef = useRef();
+  const peersKeys = useHuddleStore((state) => Object.keys(state.peers));
+  const isJoined = useHuddleStore((state) => state.roomState.joined);
 
   const getProviderOrSigner = async (needSigner = false) => {
     // Connect to Metamask
