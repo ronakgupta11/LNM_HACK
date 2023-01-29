@@ -28,9 +28,15 @@ export default function Meeting(props){
       console.log({ error });
     }
   };
+  function exit(){
+    // setIncall(false)
+    props.huddleClient.closeRoomForEverybody()
+    props.huddleClient.close();}
 
     return(
         <div className="meeting">
+        <button className='back-btn' onClick={props.goback}>{" <- back "}</button>
+
             {!isJoined && <div className = "meeting-input">
                 <input className='input-area meet' onChange={handleRoom} placeholder='Create room'></input>
                 <input className='input-area meet' onChange={handleRoom} placeholder='join room'></input>
@@ -54,7 +60,7 @@ export default function Meeting(props){
               <button className=" btn-sm-mod" onClick={() => props.huddleClient.muteMic()}>
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9340FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-mic-off"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
               </button>
-              <button className=" btn-sm-mod" >
+              <button className=" btn-sm-mod" onClick={() => exit()} >
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9340FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-phone-off"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"></path><line x1="23" y1="1" x2="1" y2="23"></line></svg>
               </button>
             </div>

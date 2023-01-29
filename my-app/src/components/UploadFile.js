@@ -69,6 +69,7 @@ export default function UploadFile(props){
     return(
         <div className="upload-file">
                   {/* <div className="input-file"> */}
+      <button className='back-btn' onClick={props.goback}>{" <- back "}</button>
       
       <input onChange={handleName} type="text" placeholder='Enter File Name' className='input-area upload-in'></input>
       <input className='file-upload'

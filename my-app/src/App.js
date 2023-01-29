@@ -62,6 +62,12 @@ function App(){
     setInEditorTab(true)
   }
 
+  function goback(){
+    setInBtnTab(true)
+    setInEditorTab(false)
+    setInMeetTab(false)
+    setInUploadTab(false)
+  }
   
   
   const getProviderOrSigner = async (needSigner = false) => {
@@ -135,9 +141,9 @@ function App(){
       {!walletConnected && <Home/>}
       { walletConnected &&<div className='main-section'>
         <div className='right-container'>
-      {inbtnTab&& <ChangeTab meeting = {meeting} addfile = {addfile} editor = {editor}/>}
-      {inMeetTab && <Meeting huddleClient = {huddleClient} address = {address}/>}
-      {inUploadTab && <UploadFile loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address}/>
+      {inbtnTab&& <ChangeTab goback = {goback} meeting = {meeting} addfile = {addfile} editor = {editor}/>}
+      {inMeetTab && <Meeting  goback = {goback} huddleClient = {huddleClient} address = {address}/>}
+      {inUploadTab && <UploadFile goback = {goback} loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address}/>
 }
 
 
@@ -145,7 +151,7 @@ function App(){
         <div className='left-container'>
       
       {!inEditorTab && <AllFiles address = {address} getSigner = {getProviderOrSigner}/>}
-      {inEditorTab && <EditorPage loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address} />}
+      {inEditorTab && <EditorPage  loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address} />}
 
         </div>
 

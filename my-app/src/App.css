@@ -286,3 +286,11 @@
     .copyright-content{
       margin-left: 20px;
     }
+    .back-btn{
+      width: 90px;
+      height: 30px;
+      background-color: #101728;
+      color: #fff;
+      border: 1px solid white;
+      border-radius:8px;
+    }

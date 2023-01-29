@@ -1,6 +1,8 @@
 export default function ChangeTab(props){
     return(
         <div className="change-tab">
+        <button className='back-btn' onClick={props.goback}>{" <- back "}</button>
+
             <div className="tab-btn-div">
 
             <button className="tab-btn" onClick={props.meeting}>
