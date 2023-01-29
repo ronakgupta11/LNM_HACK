@@ -70,7 +70,7 @@ export default function UploadFile(props){
         <div className="upload-file">
                   {/* <div className="input-file"> */}
       
-      <input onChange={handleName} type="text" placeholder='Enter File Name' className='input-area upload-area'></input>
+      <input onChange={handleName} type="text" placeholder='Enter File Name' className='input-area upload-in'></input>
       <input className='file-upload'
         type="file"
         onChange={onChange}

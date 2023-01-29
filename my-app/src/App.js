@@ -15,6 +15,7 @@ import UploadFile from './components/UploadFile';
 import FileCard from './components/FileCard';
 import EditorPage from './components/EditorPage';
 import AllFiles from './components/AllFiles';
+import ChangeTab from './components/ChangeTab';
 
 
 
@@ -29,11 +30,37 @@ function App(){
   const [walletConnected, setWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [address,setAddress]  = useState("")
+  const [inbtnTab,setInBtnTab] = useState(true);
+  const [inUploadTab,setInUploadTab] = useState(false);
+  const [inMeetTab,setInMeetTab] = useState(false);
+  const [inEditorTab,setInEditorTab] = useState(false);
+
+
+
+
+
   // const contract  = Contract()
   
 
   
   const web3ModalRef = useRef();
+   
+  function addfile(){
+    setInUploadTab(true)
+    setInBtnTab(false)
+    setInMeetTab(false)
+  }
+  function meeting(){
+    setInMeetTab(true)
+    setInBtnTab(false)
+    setInUploadTab(false)
+  }
+  function editor(){
+    setInMeetTab(false)
+    setInBtnTab(true)
+    setInUploadTab(false)
+    setInEditorTab(true)
+  }
 
   
   
@@ -106,17 +133,19 @@ function App(){
     <div className="App">
       <Navbar connectWallet = {connectWallet} address = {address} walletConnected ={walletConnected} disconnect = {disconnect}/>
       {!walletConnected && <Home/>}
-{ walletConnected &&     <div className='main-section'>
-        <div className='left-container'>
-      <Meeting huddleClient = {huddleClient} address = {address}/>
+      { walletConnected &&<div className='main-section'>
+        <div className='right-container'>
+      {inbtnTab&& <ChangeTab meeting = {meeting} addfile = {addfile} editor = {editor}/>}
+      {inMeetTab && <Meeting huddleClient = {huddleClient} address = {address}/>}
+      {inUploadTab && <UploadFile loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address}/>
+}
 
 
         </div>
-        <div className='right-container'>
-        <UploadFile loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address}/>
-      {/* <FileCard/> */}
-      {walletConnected && <AllFiles address = {address} getSigner = {getProviderOrSigner}/>}
-      <EditorPage loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address} />
+        <div className='left-container'>
+      
+      {!inEditorTab && <AllFiles address = {address} getSigner = {getProviderOrSigner}/>}
+      {inEditorTab && <EditorPage loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address} />}
 
         </div>
 

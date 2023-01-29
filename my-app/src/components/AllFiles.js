@@ -83,10 +83,12 @@ call();
 
             <input className="input-area upload-area" onChange={handleName} placeholder="enter file name"></input>
             <button onClick = {handlePrevious}className="nav-btn">get previous versions</button>
-            <p>--------------------</p>
             {renderPreviousFiles}
             
             </div>
+            <p className = "file-head">
+                All Files
+            </p>
 
             {renderFiles}
         </div>
