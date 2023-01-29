@@ -105,12 +105,24 @@ function App(){
     <HuddleClientProvider client = {huddleClient}>
     <div className="App">
       <Navbar connectWallet = {connectWallet} address = {address} walletConnected ={walletConnected} disconnect = {disconnect}/>
-      <Home/>
+      {!walletConnected && <Home/>}
+{ walletConnected &&     <div className='main-section'>
+        <div className='left-container'>
       <Meeting huddleClient = {huddleClient} address = {address}/>
-      <UploadFile loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address}/>
+
+
+        </div>
+        <div className='right-container'>
+        <UploadFile loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address}/>
       {/* <FileCard/> */}
       {walletConnected && <AllFiles address = {address} getSigner = {getProviderOrSigner}/>}
       <EditorPage loading = {loading} setLoading = {setLoading} getSigner = {getProviderOrSigner} address ={address} />
+
+        </div>
+
+      </div>}
+
+
       <Footer/>
 
 
