@@ -127,6 +127,14 @@
   width: 90%;
 
 }
+.all-files{
+  display: flex;
+  flex-wrap: wrap;
+}
+.prev-files{
+  display: flex;
+  flex-wrap: wrap;
+}
 .input-area{
   width: 100%;
   height: 30px;
